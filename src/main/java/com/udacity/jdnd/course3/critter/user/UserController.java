@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.user.entities.Customer;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -16,9 +18,17 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        throw new UnsupportedOperationException();
+        Customer savedCustomer = userService.saveCustomer(convertCustomerDtoToEntity(customerDTO));
+
+        return convertEntityToCustomerDto(savedCustomer);
     }
 
     @GetMapping("/customer")
@@ -51,4 +61,15 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
+    private Customer convertCustomerDtoToEntity(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        return customer;
+    }
+
+    private CustomerDTO convertEntityToCustomerDto(Customer customer) {
+        CustomerDTO customerDto = new CustomerDTO();
+        BeanUtils.copyProperties(customer, customerDto);
+        return customerDto;
+    }
 }
