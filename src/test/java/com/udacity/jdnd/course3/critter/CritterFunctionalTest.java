@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,6 +43,9 @@ public class CritterFunctionalTest {
 
     @Autowired
     private ScheduleController scheduleController;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Test
     public void testCreateCustomer(){
@@ -81,6 +86,9 @@ public class CritterFunctionalTest {
         Assertions.assertEquals(newPet.getId(), pets.get(0).getId());
         Assertions.assertEquals(newPet.getName(), pets.get(0).getName());
 
+        // to avoid outdated entity relationships
+        entityManager.clear();
+
         //check to make sure customer now also contains pet
         CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
         Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds().size() > 0);
@@ -113,6 +121,9 @@ public class CritterFunctionalTest {
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
         PetDTO newPet = petController.savePet(petDTO);
+
+        // to avoid outdated entity relationships
+        entityManager.clear();
 
         CustomerDTO owner = userController.getOwnerByPet(newPet.getId());
         Assertions.assertEquals(owner.getId(), newCustomer.getId());
