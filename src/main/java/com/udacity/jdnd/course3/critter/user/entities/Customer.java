@@ -11,7 +11,7 @@ import java.util.List;
 public class Customer extends User {
     private String notes;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pet> pets;
 
     public String getNotes() {

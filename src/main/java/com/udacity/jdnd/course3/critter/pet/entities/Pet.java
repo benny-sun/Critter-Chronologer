@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 public class Pet {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private PetType petType;
@@ -22,6 +23,7 @@ public class Pet {
     private String notes;
 
     @ManyToOne
+    @JoinColumn(name = "owner_id")
     private Customer owner;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
