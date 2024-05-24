@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.schedule.entities;
 
 import com.udacity.jdnd.course3.critter.pet.entities.Pet;
+import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.user.entities.Employee;
 
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Schedule {
@@ -21,6 +23,10 @@ public class Schedule {
 
     @ManyToMany
     private List<Employee> employees;
+
+    @ElementCollection
+    @Enumerated
+    private Set<EmployeeSkill> activities;
 
     public void setId(Long id) {
         this.id = id;
@@ -42,6 +48,10 @@ public class Schedule {
         return employees;
     }
 
+    public Set<EmployeeSkill> getActivities() {
+        return activities;
+    }
+
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -52,5 +62,9 @@ public class Schedule {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public void setActivities(Set<EmployeeSkill> activities) {
+        this.activities = activities;
     }
 }
