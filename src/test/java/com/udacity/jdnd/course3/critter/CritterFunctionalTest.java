@@ -96,6 +96,32 @@ public class CritterFunctionalTest {
     }
 
     @Test
+    public void testGetAllPets() {
+        CustomerDTO customerDTO = createCustomerDTO();
+        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+
+        // add 2 pets for customer
+        PetDTO petDTO1 = createPetDTO();
+        petDTO1.setOwnerId(newCustomer.getId());
+        PetDTO savedPetDTO1 = petController.savePet(petDTO1);
+
+        PetDTO petDTO2 = createPetDTO();
+        petDTO2.setOwnerId(newCustomer.getId());
+        PetDTO savedPetDTO2 = petController.savePet(petDTO2);
+
+        // to avoid outdated entity relationships
+        entityManager.flush();
+        entityManager.clear();
+
+        // assert
+        List<PetDTO> retrievedPetDTOs = petController.getPets();
+        Assertions.assertEquals(savedPetDTO1.getId(), retrievedPetDTOs.get(0).getId());
+        Assertions.assertEquals(savedPetDTO1.getOwnerId(), retrievedPetDTOs.get(0).getOwnerId());
+        Assertions.assertEquals(savedPetDTO2.getId(), retrievedPetDTOs.get(1).getId());
+        Assertions.assertEquals(savedPetDTO2.getOwnerId(), retrievedPetDTOs.get(0).getOwnerId());
+    }
+
+    @Test
     public void testFindPetsByOwner() {
         CustomerDTO customerDTO = createCustomerDTO();
         CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
