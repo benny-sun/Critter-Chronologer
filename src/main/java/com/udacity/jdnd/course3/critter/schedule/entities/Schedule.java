@@ -16,7 +16,7 @@ public class Schedule {
 
     private LocalDate date;
 
-    @ManyToMany(mappedBy = "schedules")
+    @ManyToMany
     private List<Pet> pets;
 
     @ManyToMany(mappedBy = "schedules")

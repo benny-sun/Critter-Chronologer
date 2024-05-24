@@ -26,7 +26,7 @@ public class Pet {
     @JoinColumn(name = "owner_id")
     private Customer owner;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "pets", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Schedule> schedules;
 
     public void setId(Long id) {
