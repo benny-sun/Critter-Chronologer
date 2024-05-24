@@ -4,9 +4,7 @@ import com.udacity.jdnd.course3.critter.pet.entities.Pet;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import com.udacity.jdnd.course3.critter.user.entities.Employee;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -14,8 +12,10 @@ import java.util.Set;
 @Entity
 public class Schedule {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private LocalDate date;
 
     @ManyToMany
