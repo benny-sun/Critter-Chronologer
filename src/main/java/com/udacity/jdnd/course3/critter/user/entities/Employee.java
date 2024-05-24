@@ -18,7 +18,7 @@ public class Employee extends User {
     @Enumerated
     private Set<DayOfWeek> daysAvailable;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "employees", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Schedule> schedules;
 
     public Set<EmployeeSkill> getSkills() {

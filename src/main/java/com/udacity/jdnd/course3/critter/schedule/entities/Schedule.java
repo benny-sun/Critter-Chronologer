@@ -19,7 +19,7 @@ public class Schedule {
     @ManyToMany
     private List<Pet> pets;
 
-    @ManyToMany(mappedBy = "schedules")
+    @ManyToMany
     private List<Employee> employees;
 
     public void setId(Long id) {
