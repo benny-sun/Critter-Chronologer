@@ -15,4 +15,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e WHERE :dayOfWeek MEMBER OF e.daysAvailable")
     List<Employee> findEmployeesByDayOfWeek(@Param("dayOfWeek") DayOfWeek dayOfWeek);
 
+    List<Employee> findByIdIn(List<Long> employeeIds);
 }
