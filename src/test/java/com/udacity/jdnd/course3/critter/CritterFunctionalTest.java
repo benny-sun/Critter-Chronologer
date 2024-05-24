@@ -214,7 +214,7 @@ public class CritterFunctionalTest {
         sched3.setEmployeeIds(sched1.getEmployeeIds());
         sched3.setPetIds(sched2.getPetIds());
         sched3.setActivities(Sets.newHashSet(EmployeeSkill.SHAVING, EmployeeSkill.PETTING));
-        sched3.setDate(LocalDate.of(2020, 3, 23));
+        sched3.setDate(LocalDate.of(2024, 5, 24));
         scheduleController.createSchedule(sched3);
 
         /*
@@ -222,6 +222,10 @@ public class CritterFunctionalTest {
             and the same pets/owners as the second schedule. So if we look up schedule entries for the employee from
             schedule 1, we should get both the first and third schedule as our result.
          */
+
+        // to avoid outdated entity relationships
+        entityManager.flush();
+        entityManager.clear();
 
         //Employee 1 in is both schedule 1 and 3
         List<ScheduleDTO> scheds1e = scheduleController.getScheduleForEmployee(sched1.getEmployeeIds().get(0));
