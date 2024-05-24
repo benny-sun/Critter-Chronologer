@@ -1,6 +1,6 @@
 package com.udacity.jdnd.course3.critter.user.services;
 
-import com.udacity.jdnd.course3.critter.pet.PetRepository;
+import com.udacity.jdnd.course3.critter.pet.repositories.PetRepository;
 import com.udacity.jdnd.course3.critter.pet.entities.Pet;
 import com.udacity.jdnd.course3.critter.pet.services.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
