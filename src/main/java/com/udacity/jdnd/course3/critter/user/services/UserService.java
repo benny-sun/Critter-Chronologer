@@ -63,4 +63,8 @@ public class UserService {
                 .filter(employee -> employee.getSkills().containsAll(skills))
                 .collect(Collectors.toList());
     }
+
+    public List<Employee> findByEmployeeIdIn(List<Long> employeeIds) {
+        return employeeRepository.findByIdIn(employeeIds);
+    }
 }

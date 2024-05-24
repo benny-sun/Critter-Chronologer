@@ -1,13 +1,12 @@
 package com.udacity.jdnd.course3.critter.schedule.services;
 
 import com.udacity.jdnd.course3.critter.pet.entities.Pet;
-import com.udacity.jdnd.course3.critter.pet.repositories.PetRepository;
+import com.udacity.jdnd.course3.critter.pet.services.PetService;
 import com.udacity.jdnd.course3.critter.schedule.entities.Schedule;
 import com.udacity.jdnd.course3.critter.schedule.repositories.ScheduleRepository;
 import com.udacity.jdnd.course3.critter.user.entities.Customer;
 import com.udacity.jdnd.course3.critter.user.entities.Employee;
-import com.udacity.jdnd.course3.critter.user.repositories.CustomerRepository;
-import com.udacity.jdnd.course3.critter.user.repositories.EmployeeRepository;
+import com.udacity.jdnd.course3.critter.user.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,21 +18,19 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleService {
 
-    private final PetRepository petRepository;
-    private final EmployeeRepository employeeRepository;
-    private final CustomerRepository customerRepository;
+    private final PetService petService;
+    private final UserService userService;
     private final ScheduleRepository scheduleRepository;
 
-    public ScheduleService(PetRepository petRepository, EmployeeRepository employeeRepository, CustomerRepository customerRepository, ScheduleRepository scheduleRepository) {
-        this.petRepository = petRepository;
-        this.employeeRepository = employeeRepository;
-        this.customerRepository = customerRepository;
+    public ScheduleService(PetService petService, UserService userService, ScheduleRepository scheduleRepository) {
+        this.petService = petService;
+        this.userService = userService;
         this.scheduleRepository = scheduleRepository;
     }
 
     public Schedule save(Schedule schedule, List<Long> petIds, List<Long> employeeIds) {
-        List<Pet> pets = petRepository.findByIdIn(petIds);
-        List<Employee> employees = employeeRepository.findByIdIn(employeeIds);
+        List<Pet> pets = petService.findByIdIn(petIds);
+        List<Employee> employees = userService.findByEmployeeIdIn(employeeIds);
         schedule.setPets(pets);
         schedule.setEmployees(employees);
         return scheduleRepository.save(schedule);
@@ -44,18 +41,12 @@ public class ScheduleService {
     }
 
     public List<Schedule> findScheduleForPet(long petId) {
-        Pet pet = petRepository.findById(petId).orElse(null);
-
-        if (pet == null) return new ArrayList<>();
-
+        Pet pet = petService.findByPetId(petId);
         return pet.getSchedules();
     }
 
     public List<Schedule> findScheduleForEmployee(long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
-
-        if (employee == null) return new ArrayList<>();
-
+        Employee employee = userService.findEmployee(employeeId);
         List<Schedule> schedules = employee.getSchedules();
 
         if (schedules == null) return new ArrayList<>();
@@ -64,10 +55,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> findScheduleForCustomer(long customerId) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
-
-        if (customer == null) return new ArrayList<>();
-
+        Customer customer = userService.findCustomer(customerId);
         List<Pet> pets = customer.getPets();
 
         if (pets == null) return new ArrayList<>();

@@ -38,4 +38,8 @@ public class PetService {
     public List<Pet> findAllPets() {
         return petRepository.findAll();
     }
+
+    public List<Pet> findByIdIn(List<Long> petIds) {
+        return petRepository.findByIdIn(petIds);
+    }
 }
