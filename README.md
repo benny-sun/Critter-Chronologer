@@ -124,7 +124,7 @@ Pet "0..*" <--> "0..*" Schedule
 Schedule "0..*" <--> "0..*" Employee 
 ```
 
-*Entity 物件穿梭於 Contoller - Service - Repository*
+*Entity 物件穿梭於 Controller - Service - Repository*
 ![image](https://github.com/benny-sun/CritterChronologer/assets/22260295/e34dd606-6a37-4995-8d21-27dfb77ca95a)
 *(圖片來自 [Udacity Java Web Developer](https://www.udacity.com/course/java-developer-nanodegree--nd035) 課程)*
 
